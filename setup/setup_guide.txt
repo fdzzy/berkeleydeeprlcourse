@@ -1,0 +1,11 @@
+1. Go to hw1, run `pip install -r requirements.txt'
+2. Follow https://github.com/openai/mujoco-py to install mujoco-py
+3. Obtain trial license on MuJoCo website, unzip the downloaded mujoco200 directory into ~/.mujoco/mujoco200, and place your license key (the mjkey.txt file from your email) at ~/.mujoco/mjkey.txt.
+4. Add "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/.mujoco/mujoco200/bin" to ~/.bashrc
+5. Run the following:
+    sudo apt install libosmesa6-dev
+    sudo apt-get install libglew-dev
+    sudo add-apt-repository ppa:jamesh/snap-support 
+    sudo apt-get update
+    sudo apt install patchelf
+    pip3 install -U 'mujoco-py<2.1,>=2.0'
