@@ -26,6 +26,7 @@ def main():
     parser.add_argument("--max_timesteps", type=int)
     parser.add_argument('--num_rollouts', type=int, default=20,
                         help='Number of expert roll outs')
+    parser.add_argument('--save_data', action='store_true')
     args = parser.parse_args()
 
     print('loading and building expert policy')
@@ -35,7 +36,7 @@ def main():
     with tf.Session():
         tf_util.initialize()
 
-        import gym
+        #import gym
         env = gym.make(args.envname)
         max_steps = args.max_timesteps or env.spec.timestep_limit
 
@@ -50,6 +51,7 @@ def main():
             steps = 0
             while not done:
                 action = policy_fn(obs[None,:])
+                #print("action is: {}".format(action))
                 observations.append(obs)
                 actions.append(action)
                 obs, r, done, _ = env.step(action)
@@ -69,8 +71,9 @@ def main():
         expert_data = {'observations': np.array(observations),
                        'actions': np.array(actions)}
 
-        with open(os.path.join('expert_data', args.envname + '.pkl'), 'wb') as f:
-            pickle.dump(expert_data, f, pickle.HIGHEST_PROTOCOL)
+        if args.save_data:
+            with open(os.path.join('expert_data', args.envname + '.pkl'), 'wb') as f:
+                pickle.dump(expert_data, f, pickle.HIGHEST_PROTOCOL)
 
 if __name__ == '__main__':
     main()
